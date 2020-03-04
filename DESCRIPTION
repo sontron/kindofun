@@ -1,0 +1,19 @@
+Package: kindofun
+Type: Package
+Title: Fast Analytical Statistical Tools with R 
+Version: 0.1.0
+Author: son tron
+Maintainer: son tron <sontron@foxmail.com>
+Description: some quick shiny functions from madis package.
+License: BSD
+Encoding: UTF-8
+LazyData: true
+Collate:
+  'quickShinyFuns.R'
+  'dataMnp.R'
+  'ggplt.R'
+RoxygenNote: 6.1.1
+Imports:
+  compiler,
+  data.table
+ByteCompile: false
