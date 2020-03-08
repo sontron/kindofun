@@ -476,6 +476,12 @@ qTable<-function(dt,...){
           ),
           mainPanel(
             panel(
+              heading='View head of the data',
+              rHandsontableOutput("dtHead"),
+              status='primary'
+              
+            ),
+            panel(
               heading = 'set dataMnp args',
               rHandsontableOutput("handsonTB"),
               status='primary'
@@ -483,8 +489,8 @@ qTable<-function(dt,...){
             panel(heading = 'results',
                   DT:::dataTableOutput('resMnp'),
                   status='primary'
-            )
-            
+            ),
+            downloadButton('downloadData','download result')
             
           )
         )
@@ -508,6 +514,10 @@ qTable<-function(dt,...){
           )
         })
         
+        
+        output$dtHead<-renderRHandsontable({
+          rhandsontable(head(dt))
+        })
         
         
         output$handsonTB<-renderRHandsontable({
@@ -573,6 +583,17 @@ qTable<-function(dt,...){
         
         output$resMnp<-DT:::renderDataTable(
           res_DT()$tabRes,server=T
+        )
+        
+        
+        
+        output$downloadData<-downloadHandler(
+          filename=function(){
+            paste('tableRes-',Sys.Date(),'.csv',sep='')
+          },
+          content=function(file){
+            write.csv(res_DT()$tabRes,file,fileEncoding='GB18030')
+          }
         )
         
         
