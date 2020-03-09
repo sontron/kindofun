@@ -16,6 +16,7 @@ qGraph<-function(dt,...){
   require(ggplot2)
   require(shiny)
   require(shinyWidgets)
+  require(showtext)
   as.data.frame(dt)->dt
   if (interactive()) {
     shinyApp(options=list(...),
@@ -37,7 +38,8 @@ qGraph<-function(dt,...){
             actionBttn('go_myGplt','confirm')
           ),
           mainPanel(
-            uiOutput('more3_myGplt')
+            uiOutput('more3_myGplt'),
+            downloadButton('downloadGraph','download graph')
           )
         )
         
@@ -364,6 +366,24 @@ qGraph<-function(dt,...){
             resmyGplt$resPlotly
           })
         })
+        
+        
+        output$downloadGraph<-downloadHandler(
+          filename=function(){
+            paste('graph-',Sys.Date(),'.pdf',sep='')
+          },
+          content=function(file){
+            pdf(file)
+            showtext_begin()
+            plot(res_myGplt()$resGGplot)
+            showtext_end()
+            dev.off()
+            
+          }
+          
+        )
+        
+        
         
       }
     )
